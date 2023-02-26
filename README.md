@@ -16,44 +16,9 @@ Development:
 
 Build docker image:
 1. Add maven plugin
-<properties>
-   <java.version>17</java.version>
-   <docker.image.prefix>zhangnaiyuan47</docker.image.prefix>
-   <docker.image.exposed.port>8080</docker.image.exposed.port>
-   <docker.image.dockerfile.dir>${basedir}</docker.image.dockerfile.dir>
-   <docker.image.dockerize.version>v0.6.1</docker.image.dockerize.version>
-   <docker.plugin.version>1.2.0</docker.plugin.version>
-</properties>
-
-<!-- dockerfile maven plugin -->
-<plugin>
-   <groupId>com.spotify</groupId>
-   <artifactId>dockerfile-maven-plugin</artifactId>
-   <version>1.4.12</version>
-   <configuration>
-      <repository>${docker.image.prefix}/${project.artifactId}</repository>
-      <buildArgs>
-         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-      </buildArgs>
-   </configuration>
-</plugin>
-<!-- dockerfile maven plugin -->
-
 2. Create a docker file.
-FROM openjdk:17-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} spring-boot-docker.jar
-ENTRYPOINT ["java","-jar","/spring-boot-docker.jar"]
-
 3. Build a docker image.
-mvn clean install dockerfile:build
-
 4. Create a docker hub repository, and push docker image to it.
-run cmd
-docker login
-docker images
-docker push zhangnaiyuan47/arilab
 
 
 Setup Kubernates deployment:
