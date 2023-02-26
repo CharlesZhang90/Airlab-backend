@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arilab-deployment
+  labels:
+    app: arilab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arilab
+  template:
+    metadata:
+      labels:
+        app: arilab
+    spec:
+      containers:
+      - name: arilab
+        image: zhangnaiyuan47/arilab
+        ports:
+        - containerPort: 8080
