@@ -18,8 +18,6 @@
 		<docker.image.prefix>zhangnaiyuan47</docker.image.prefix>
 		<docker.image.exposed.port>8080</docker.image.exposed.port>
 		<docker.image.dockerfile.dir>${basedir}</docker.image.dockerfile.dir>
-		<docker.image.dockerize.version>v0.6.1</docker.image.dockerize.version>
-		<docker.plugin.version>1.2.0</docker.plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>

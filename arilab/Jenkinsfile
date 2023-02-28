@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+  }
+  stages {
+    stage('Build Image') {
+      steps {
+        sh 'docker build -t zhangnaiyuan47/arilab .'
+      }
+    }
+    stage('Login DockerHub') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
+    stage('Push To DockerHub') {
+      steps {
+        sh 'docker push zhangnaiyuan47/arilab'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
+}
