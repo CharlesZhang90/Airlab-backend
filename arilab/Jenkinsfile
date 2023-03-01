@@ -1,31 +1,29 @@
 pipeline {
-  agent any
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-  }
-  stages {
-    stage('Build Image') {
-      steps {
-        sh 'docker build -t zhangnaiyuan47/arilab .'
-      }
+    agent any
+    tools {
+        maven "maven"
+        jdk "17"
     }
-    stage('Login DockerHub') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
+    environment{
+        dockerhub=credentials('docker-hub-credential')
     }
-    stage('Push To DockerHub') {
-      steps {
-        sh 'docker push zhangnaiyuan47/arilab'
-      }
+    stages {
+        stage('Build maven'){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/CharlesZhang90/Airlab-backend.git']])
+                bat 'mvn -f arilab/pom.xml clean install'
+            }
+        }
+        stage('Build image'){
+            steps{
+                bat 'docker build -f arilab/Dockerfile -t zhangnaiyuan47/arilab .'
+            }
+        }
+        stage('Push image') {
+            steps{
+                bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                bat "docker push zhangnaiyuan47/arilab"
+            }
+        }
     }
-  }
-  post {
-    always {
-      sh 'docker logout'
-    }
-  }
 }
