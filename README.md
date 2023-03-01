@@ -28,3 +28,5 @@ Setup Kubernates deployment:
 7. expose update target port 8080
 8. service type load balance to external ip
 9. http://34.72.185.29/
+
+Jenkins server: http://34.173.137.81:32445/
