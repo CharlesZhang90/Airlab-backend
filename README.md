@@ -27,6 +27,9 @@ Setup Kubernates deployment:
 6. kubectl apply -f arilab.yaml
 7. expose update target port 8080
 8. service type load balance to external ip
-9. http://34.72.185.29/
 
-Jenkins server: http://34.173.137.81:32445/
+Jenkins server: 
+
+1.  Deploy jenkins server on kubernetes
+2.  Expose to NodePort service
+3.  Add nodePort to firewall
